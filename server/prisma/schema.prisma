@@ -1,0 +1,177 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum ProjectStatus {
+  PLANNING
+  ACTIVE
+  ON_HOLD
+  COMPLETED
+  CANCELLED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TaskStatus {
+  TO_DO
+  IN_PROGRESS
+  UNDER_REVIEW
+  COMPLETED
+}
+
+enum NotificationType {
+  PROJECT_ASSIGNED
+  TASK_ASSIGNED
+  TASK_UPDATED
+  TASK_DUE_SOON
+  COMMENT_ADDED
+  SYSTEM
+}
+
+model Role {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String
+  isSystem    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  users       User[]
+}
+
+model User {
+  id                 Int             @id @default(autoincrement())
+  roleId             Int
+  name               String
+  email              String          @unique
+  passwordHash       String
+  status             UserStatus      @default(ACTIVE)
+  avatarUrl          String?
+  lastLoginAt        DateTime?
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+  role               Role            @relation(fields: [roleId], references: [id], onDelete: Restrict)
+  createdProjects    Project[]       @relation("ProjectCreator")
+  projectMemberships ProjectMember[]
+  createdTasks       Task[]          @relation("TaskCreator")
+  assignedTasks      Task[]          @relation("TaskAssignee")
+  taskComments       TaskComment[]
+  notifications      Notification[]
+  activityLogs       ActivityLog[]
+
+  @@index([email])
+  @@index([roleId])
+}
+
+model Project {
+  id          Int             @id @default(autoincrement())
+  createdById Int
+  name        String
+  projectCode String          @unique
+  description String          @db.Text
+  status      ProjectStatus   @default(PLANNING)
+  priority    Priority        @default(MEDIUM)
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  createdBy   User            @relation("ProjectCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  members     ProjectMember[]
+  tasks       Task[]
+
+  @@index([status])
+  @@index([createdById])
+}
+
+model ProjectMember {
+  id         Int      @id @default(autoincrement())
+  projectId  Int
+  userId     Int
+  assignedAt DateTime @default(now())
+  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@unique([projectId, userId])
+  @@index([projectId])
+  @@index([userId])
+}
+
+model Task {
+  id           Int           @id @default(autoincrement())
+  projectId    Int
+  createdById  Int
+  assignedToId Int?
+  title        String
+  description  String        @db.Text
+  status       TaskStatus    @default(TO_DO)
+  priority     Priority      @default(MEDIUM)
+  progress     Int           @default(0)
+  dueDate      DateTime
+  completedAt  DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  project      Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdBy    User          @relation("TaskCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  assignedTo   User?         @relation("TaskAssignee", fields: [assignedToId], references: [id], onDelete: SetNull)
+  comments     TaskComment[]
+
+  @@index([projectId])
+  @@index([assignedToId])
+  @@index([status])
+  @@index([dueDate])
+}
+
+model TaskComment {
+  id        Int      @id @default(autoincrement())
+  taskId    Int
+  userId    Int
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Restrict)
+}
+
+model Notification {
+  id                Int              @id @default(autoincrement())
+  userId            Int
+  title             String
+  message           String           @db.Text
+  type              NotificationType
+  isRead            Boolean          @default(false)
+  relatedEntityType String?
+  relatedEntityId   Int?
+  readAt            DateTime?
+  createdAt         DateTime         @default(now())
+  user              User             @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@index([userId, isRead])
+}
+
+model ActivityLog {
+  id         Int      @id @default(autoincrement())
+  userId     Int?
+  action     String
+  entityType String
+  entityId   Int?
+  details    Json?
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([entityType, entityId])
+}

@@ -1,0 +1,15 @@
+flowchart LR
+  Browser[Browser] --> Client[Next.js Frontend]
+  Client -->|REST JSON with credentials| API[/api/v1 REST API/]
+  API --> Backend[Express Backend]
+  Backend --> Auth[Authentication]
+  Backend --> Validation[Zod Validation]
+  Backend --> RBAC[Role-Based Access Control]
+  Backend --> Prisma[Prisma ORM]
+  Prisma --> MySQL[(MySQL Database)]
+
+  GitHub[GitHub Repository] --> Actions[GitHub Actions]
+  Actions --> Lint[Lint]
+  Actions --> TypeCheck[Type-check]
+  Actions --> Test[Test]
+  Actions --> Build[Build]

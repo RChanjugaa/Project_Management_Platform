@@ -1,0 +1,104 @@
+erDiagram
+  Role ||--o{ User : has
+  User ||--o{ Project : creates
+  User ||--o{ ProjectMember : joins
+  Project ||--o{ ProjectMember : contains
+  Project ||--o{ Task : contains
+  User ||--o{ Task : creates
+  User ||--o{ Task : assigned
+  Task ||--o{ TaskComment : has
+  User ||--o{ TaskComment : writes
+  User ||--o{ Notification : receives
+  User ||--o{ ActivityLog : creates
+
+  Role {
+    Int id PK
+    String name UK
+    String description
+    Boolean isSystem
+    DateTime createdAt
+    DateTime updatedAt
+  }
+
+  User {
+    Int id PK
+    Int roleId FK
+    String name
+    String email UK
+    String passwordHash
+    UserStatus status
+    String avatarUrl
+    DateTime lastLoginAt
+    DateTime createdAt
+    DateTime updatedAt
+  }
+
+  Project {
+    Int id PK
+    Int createdById FK
+    String name
+    String projectCode UK
+    Text description
+    ProjectStatus status
+    Priority priority
+    DateTime startDate
+    DateTime endDate
+    DateTime createdAt
+    DateTime updatedAt
+  }
+
+  ProjectMember {
+    Int id PK
+    Int projectId FK
+    Int userId FK
+    DateTime assignedAt
+  }
+
+  Task {
+    Int id PK
+    Int projectId FK
+    Int createdById FK
+    Int assignedToId FK
+    String title
+    Text description
+    TaskStatus status
+    Priority priority
+    Int progress
+    DateTime dueDate
+    DateTime completedAt
+    DateTime createdAt
+    DateTime updatedAt
+  }
+
+  TaskComment {
+    Int id PK
+    Int taskId FK
+    Int userId FK
+    Text content
+    DateTime createdAt
+    DateTime updatedAt
+  }
+
+  Notification {
+    Int id PK
+    Int userId FK
+    String title
+    Text message
+    NotificationType type
+    Boolean isRead
+    String relatedEntityType
+    Int relatedEntityId
+    DateTime readAt
+    DateTime createdAt
+  }
+
+  ActivityLog {
+    Int id PK
+    Int userId FK
+    String action
+    String entityType
+    Int entityId
+    Json details
+    String ipAddress
+    DateTime createdAt
+  }
