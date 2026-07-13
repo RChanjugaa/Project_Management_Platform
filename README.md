@@ -1,78 +1,46 @@
 # Project and Team Task Management Platform
 
-A full-stack practical assignment foundation for a project and team task management platform. The Day 1 scope includes system setup, database modelling, authentication, role-based access control, role dashboards, documentation, tests that do not require MySQL, and CI validation.
+A full-stack project management system for the Intern Full Stack Developer practical assignment. It supports administrator, project manager, and team member workflows with secure authentication, role-based authorization, project assignment, task tracking, comments, documentation, and CI validation.
 
-## Technology Stack
+## Stack
 
-- Frontend: Next.js App Router, TypeScript, Tailwind CSS, ESLint
+- Frontend: Next.js App Router, TypeScript, Tailwind CSS
 - Backend: Node.js, Express.js, TypeScript
 - Database: MySQL
 - ORM: Prisma
 - Validation: Zod
-- Authentication: JWT in secure HTTP-only cookie
+- Auth: JWT stored in an HTTP-only cookie
 - Password hashing: bcryptjs
-- API: RESTful JSON API under `/api/v1`
-- Package manager: npm
+- API: REST JSON under `/api/v1`
 
-## User Roles
+## Features
 
-- `ADMIN`: manages users, roles, projects, and system access.
-- `PROJECT_MANAGER`: manages projects, team members, and project tasks.
-- `TEAM_MEMBER`: views assigned projects/tasks and updates permitted task activity.
-
-## Folder Structure
-
-```text
-project-team-management-platform/
-  client/
-  server/
-  diagrams/
-  docs/
-  postman/
-  .github/workflows/
-```
-
-## Current Day 1 Features
-
-- Root monorepo scripts for development, linting, type-checking, tests, and builds.
-- Responsive login UI and role dashboards.
-- Frontend auth state management and role-based redirects.
-- Express API with security middleware, CORS credentials, JSON limits, rate-limited login, central error handling, and 404 handling.
-- Prisma MySQL schema for roles, users, projects, members, tasks, comments, notifications, and activity logs.
-- Secure seed script that reads development accounts from environment variables.
-- Auth endpoints: `POST /auth/login`, `POST /auth/logout`, `GET /auth/me`.
-- RBAC dashboard endpoints for admin, project manager, and team member roles.
-- Non-database tests for health, 404, and validation failure.
-- GitHub Actions workflow for lint, type-check, tests, Prisma generation, and build.
-
-Project and task CRUD interfaces are intentionally not implemented in this Day 1 scope.
-
-## Prerequisites
-
-- Node.js 20 or newer
-- npm
-- MySQL 8 or newer
+- Login, logout, and current-user session check.
+- Administrator user management.
+- Project manager project and task management.
+- Team member assigned project/task view.
+- Project member assignment.
+- Task progress/status updates.
+- Task comments.
+- Role-based API authorization.
+- Responsive calm-focus UI.
+- MySQL database relationships through Prisma.
+- Basic CI for lint, type-check, test, Prisma generate, and build.
 
 ## Setup
-
-Install dependencies:
 
 ```bash
 npm install
 npm install --prefix client
 npm install --prefix server
-```
 
-Create environment files:
-
-```bash
 cp client/.env.example client/.env
 cp server/.env.example server/.env
 ```
 
-Update `server/.env` with a real MySQL `DATABASE_URL`, a long `JWT_SECRET`, and secure local seed credentials.
+Update `server/.env` with your MySQL `DATABASE_URL`, `JWT_SECRET`, and seed account values.
 
-Run the development apps:
+Run the app:
 
 ```bash
 npm run dev
@@ -81,18 +49,16 @@ npm run dev
 - Frontend: `http://localhost:3000`
 - Backend: `http://localhost:5000/api/v1`
 
-## MySQL Setup Commands To Run Later
+## Database Commands
 
-Do not run these until your local MySQL service is fixed and `DATABASE_URL` points to a working database:
+Run these after MySQL is configured:
 
 ```bash
 npm run db:migrate --prefix server
 npm run db:seed --prefix server
 ```
 
-## Safe Verification Commands
-
-These do not require a live MySQL connection:
+## Validation
 
 ```bash
 npm run prisma:format --prefix server
@@ -106,24 +72,14 @@ npm run build
 
 ## Documentation
 
-- [Role permissions](docs/role-permissions.md)
+- [Design system](DESIGN.md)
 - [API endpoints](docs/api-endpoints.md)
-- [SRS](docs/SRS.md)
 - [Feature completion report](docs/feature-completion-report.md)
 - [CI/CD explanation](docs/ci-cd-explanation.md)
-- [ER diagram](diagrams/er-diagram.mmd)
-- [Use case diagram](diagrams/use-case-diagram.puml)
-- [System architecture](diagrams/system-architecture.mmd)
 - [Postman collection](postman/project-team-management.postman_collection.json)
 
-## Security Notes
+Draw.io diagrams can be added separately for ER, use case, and architecture diagrams.
 
-- JWTs are stored in the `access_token` HTTP-only cookie.
-- Cookies use `sameSite: lax` and are marked secure in production.
-- Passwords are hashed with bcryptjs.
-- Backend authorization is enforced with middleware; frontend route hiding is only a usability layer.
-- Real secrets and passwords must not be committed.
+## AI Usage
 
-## AI Usage Disclosure
-
-AI tools assisted with project scaffolding, architecture planning, boilerplate code generation, documentation drafting, and verification guidance. Final review, testing, and submission decisions remain the developer's responsibility.
+AI assisted with planning, code scaffolding, documentation, and validation guidance. The final code and submission should be reviewed by the developer before sending.

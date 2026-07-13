@@ -4,65 +4,77 @@
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
-    {
-      "name": "Health",
-      "request": {
-        "method": "GET",
-        "url": "{{baseUrl}}/health"
-      }
-    },
+    { "name": "Health", "request": { "method": "GET", "url": "{{baseUrl}}/health" } },
     {
       "name": "Login",
       "request": {
         "method": "POST",
         "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"replace-with-development-password\"\n}"
-        },
+        "body": { "mode": "raw", "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"replace-with-development-password\"\n}" },
         "url": "{{baseUrl}}/auth/login"
       }
     },
+    { "name": "Me", "request": { "method": "GET", "url": "{{baseUrl}}/auth/me" } },
+    { "name": "Logout", "request": { "method": "POST", "url": "{{baseUrl}}/auth/logout" } },
+    { "name": "Roles", "request": { "method": "GET", "url": "{{baseUrl}}/users/roles" } },
+    { "name": "Users", "request": { "method": "GET", "url": "{{baseUrl}}/users" } },
+    { "name": "Assignable Users", "request": { "method": "GET", "url": "{{baseUrl}}/users/assignable" } },
     {
-      "name": "Current User",
-      "request": {
-        "method": "GET",
-        "url": "{{baseUrl}}/auth/me"
-      }
-    },
-    {
-      "name": "Logout",
+      "name": "Create User",
       "request": {
         "method": "POST",
-        "url": "{{baseUrl}}/auth/logout"
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"name\": \"Team Member\",\n  \"email\": \"member2@example.com\",\n  \"password\": \"Password123!\",\n  \"roleId\": 3,\n  \"status\": \"ACTIVE\"\n}" },
+        "url": "{{baseUrl}}/users"
+      }
+    },
+    { "name": "Projects", "request": { "method": "GET", "url": "{{baseUrl}}/projects" } },
+    {
+      "name": "Create Project",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"name\": \"Website Redesign\",\n  \"projectCode\": \"WEB-001\",\n  \"description\": \"Redesign the company website.\",\n  \"status\": \"ACTIVE\",\n  \"priority\": \"HIGH\",\n  \"startDate\": \"2026-07-14\",\n  \"endDate\": \"2026-08-14\"\n}" },
+        "url": "{{baseUrl}}/projects"
       }
     },
     {
-      "name": "Admin Dashboard",
+      "name": "Assign Members",
       "request": {
-        "method": "GET",
-        "url": "{{baseUrl}}/dashboard/admin"
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"userIds\": [2, 3]\n}" },
+        "url": "{{baseUrl}}/projects/1/members"
+      }
+    },
+    { "name": "Tasks", "request": { "method": "GET", "url": "{{baseUrl}}/tasks" } },
+    {
+      "name": "Create Task",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"projectId\": 1,\n  \"assignedToId\": 3,\n  \"title\": \"Create dashboard UI\",\n  \"description\": \"Build the responsive dashboard screens.\",\n  \"status\": \"TO_DO\",\n  \"priority\": \"MEDIUM\",\n  \"progress\": 0,\n  \"dueDate\": \"2026-07-20\"\n}" },
+        "url": "{{baseUrl}}/tasks"
       }
     },
     {
-      "name": "Manager Dashboard",
+      "name": "Update Task Progress",
       "request": {
-        "method": "GET",
-        "url": "{{baseUrl}}/dashboard/manager"
+        "method": "PATCH",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"status\": \"IN_PROGRESS\",\n  \"progress\": 50\n}" },
+        "url": "{{baseUrl}}/tasks/1/progress"
       }
     },
     {
-      "name": "Member Dashboard",
+      "name": "Add Task Comment",
       "request": {
-        "method": "GET",
-        "url": "{{baseUrl}}/dashboard/member"
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"content\": \"Progress updated.\"\n}" },
+        "url": "{{baseUrl}}/tasks/1/comments"
       }
     }
   ],
-  "variable": [
-    {
-      "key": "baseUrl",
-      "value": "http://localhost:5000/api/v1"
-    }
-  ]
+  "variable": [{ "key": "baseUrl", "value": "http://localhost:5000/api/v1" }]
 }

@@ -10,12 +10,12 @@ export function Input({ id, label, error, className = "", ...props }: InputProps
 
   return (
     <div className="space-y-2">
-      <label htmlFor={inputId} className="block text-sm font-medium text-slate-800">
+      <label htmlFor={inputId} className="block text-sm font-medium text-[#2d3748]">
         {label}
       </label>
       <input
         id={inputId}
-        className={`w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-950 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-slate-950 focus:ring-2 focus:ring-slate-200 ${className}`}
+        className={`w-full rounded-md border border-[#a7d8de] bg-white px-3 py-2 text-[#2d3748] shadow-sm outline-none transition placeholder:text-[#2d3748]/45 focus:border-[#ffb4a2] focus:ring-2 focus:ring-[#ffb4a2]/30 ${className}`}
         aria-invalid={Boolean(error)}
         aria-describedby={error ? `${inputId}-error` : undefined}
         {...props}

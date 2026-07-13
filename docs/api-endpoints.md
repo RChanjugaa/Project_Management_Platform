@@ -2,7 +2,7 @@
 
 Base URL: `http://localhost:5000/api/v1`
 
-All responses use:
+All endpoints return:
 
 ```json
 {
@@ -12,47 +12,38 @@ All responses use:
 }
 ```
 
+## Auth
+
+- `POST /auth/login` - login and set `access_token` cookie.
+- `POST /auth/logout` - clear cookie.
+- `GET /auth/me` - get current authenticated user.
+
+## Users
+
+- `GET /users/roles` - admin only.
+- `GET /users` - admin only.
+- `GET /users/assignable` - admin and project manager.
+- `POST /users` - admin only.
+- `PATCH /users/:id` - admin only.
+- `DELETE /users/:id` - admin only, deactivates user.
+
+## Projects
+
+- `GET /projects` - visible projects for current user.
+- `POST /projects` - admin and project manager.
+- `PATCH /projects/:id` - admin or owning project manager.
+- `DELETE /projects/:id` - admin or owning project manager.
+- `POST /projects/:id/members` - assign project members.
+
+## Tasks
+
+- `GET /tasks` - visible tasks for current user.
+- `POST /tasks` - admin and project manager.
+- `PATCH /tasks/:id` - admin or owning project manager.
+- `PATCH /tasks/:id/progress` - permitted users update status/progress.
+- `DELETE /tasks/:id` - admin or owning project manager.
+- `POST /tasks/:id/comments` - permitted users add comments.
+
 ## Health
 
-`GET /health`
-
-Returns API status.
-
-## Authentication
-
-`POST /auth/login`
-
-Request:
-
-```json
-{
-  "email": "user@example.com",
-  "password": "password"
-}
-```
-
-Sets the `access_token` HTTP-only cookie and returns safe user data.
-
-`POST /auth/logout`
-
-Clears the `access_token` cookie.
-
-`GET /auth/me`
-
-Requires authentication. Returns the current safe user profile.
-
-## Dashboards
-
-`GET /dashboard/admin`
-
-Requires `ADMIN`.
-
-`GET /dashboard/manager`
-
-Requires `PROJECT_MANAGER`.
-
-`GET /dashboard/member`
-
-Requires `TEAM_MEMBER`.
-
-Dashboard endpoints currently return safe placeholder statistics with zero values for Day 1.
+- `GET /health` - API health check.

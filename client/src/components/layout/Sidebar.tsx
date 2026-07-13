@@ -8,15 +8,15 @@ const labels: Record<RoleName, string> = {
 
 export function Sidebar({ role }: { role: RoleName }) {
   return (
-    <aside className="border-b border-slate-200 bg-white px-5 py-4 md:min-h-screen md:w-64 md:border-b-0 md:border-r">
+    <aside className="border-b border-[#a7d8de] bg-[#a7d8de] px-5 py-4 md:min-h-screen md:w-64 md:border-b-0 md:border-r">
       <div>
-        <p className="text-lg font-bold text-slate-950">TaskFlow PM</p>
-        <p className="text-sm text-slate-500">{labels[role]}</p>
+        <p className="text-lg font-bold text-[#2d3748]">TaskFlow PM</p>
+        <p className="text-sm text-[#2d3748]/75">{labels[role]}</p>
       </div>
       <nav className="mt-6 flex gap-2 md:flex-col">
-        <span className="rounded-md bg-slate-950 px-3 py-2 text-sm font-medium text-white">Dashboard</span>
-        <span className="rounded-md px-3 py-2 text-sm text-slate-500">Projects</span>
-        <span className="rounded-md px-3 py-2 text-sm text-slate-500">Tasks</span>
+        <span className="rounded-md bg-white px-3 py-2 text-sm font-medium text-[#2d3748]">Dashboard</span>
+        <span className="rounded-md px-3 py-2 text-sm text-[#2d3748]/75">Projects</span>
+        <span className="rounded-md px-3 py-2 text-sm text-[#2d3748]/75">Tasks</span>
       </nav>
     </aside>
   );

@@ -1,38 +1,32 @@
 import type { Request, Response } from "express";
+import { prisma } from "../config/prisma.js";
 import { asyncHandler } from "../utils/async-handler.js";
-
-function placeholderStats(role: string) {
-  return {
-    role,
-    statistics: {
-      users: 0,
-      projects: 0,
-      tasks: 0,
-      notifications: 0
-    }
-  };
-}
+import { sendSuccess } from "../utils/response.js";
 
 export const adminDashboard = asyncHandler(async (_req: Request, res: Response) => {
-  res.status(200).json({
-    success: true,
-    message: "Administrator dashboard loaded.",
-    data: placeholderStats("ADMIN")
-  });
+  const [users, projects, tasks, completedTasks] = await Promise.all([
+    prisma.user.count(),
+    prisma.project.count(),
+    prisma.task.count(),
+    prisma.task.count({ where: { status: "COMPLETED" } })
+  ]);
+  sendSuccess(res, "Administrator dashboard loaded.", { role: "ADMIN", statistics: { users, projects, tasks, completedTasks } });
 });
 
-export const managerDashboard = asyncHandler(async (_req: Request, res: Response) => {
-  res.status(200).json({
-    success: true,
-    message: "Project manager dashboard loaded.",
-    data: placeholderStats("PROJECT_MANAGER")
-  });
+export const managerDashboard = asyncHandler(async (req: Request, res: Response) => {
+  const [projects, tasks, completedTasks] = await Promise.all([
+    prisma.project.count({ where: { createdById: req.user!.id } }),
+    prisma.task.count({ where: { project: { createdById: req.user!.id } } }),
+    prisma.task.count({ where: { project: { createdById: req.user!.id }, status: "COMPLETED" } })
+  ]);
+  sendSuccess(res, "Project manager dashboard loaded.", { role: "PROJECT_MANAGER", statistics: { projects, tasks, completedTasks } });
 });
 
-export const memberDashboard = asyncHandler(async (_req: Request, res: Response) => {
-  res.status(200).json({
-    success: true,
-    message: "Team member dashboard loaded.",
-    data: placeholderStats("TEAM_MEMBER")
-  });
+export const memberDashboard = asyncHandler(async (req: Request, res: Response) => {
+  const [projects, tasks, completedTasks] = await Promise.all([
+    prisma.project.count({ where: { members: { some: { userId: req.user!.id } } } }),
+    prisma.task.count({ where: { assignedToId: req.user!.id } }),
+    prisma.task.count({ where: { assignedToId: req.user!.id, status: "COMPLETED" } })
+  ]);
+  sendSuccess(res, "Team member dashboard loaded.", { role: "TEAM_MEMBER", statistics: { projects, tasks, completedTasks } });
 });

@@ -11,7 +11,7 @@ export function DashboardLayout({ role, title, children }: { role: RoleName; tit
 
   if (isLoading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-50">
+      <main className="flex min-h-screen items-center justify-center bg-[#f7fafc]">
         <LoadingSpinner label="Checking your access" />
       </main>
     );
@@ -22,7 +22,7 @@ export function DashboardLayout({ role, title, children }: { role: RoleName; tit
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 md:flex">
+    <div className="min-h-screen bg-[#f7fafc] md:flex">
       <Sidebar role={role} />
       <div className="flex-1">
         <Header title={title} />

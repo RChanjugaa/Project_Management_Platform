@@ -2,13 +2,13 @@
 
 :root {
   color-scheme: light;
-  background: #f8fafc;
+  background: #f7fafc;
 }
 
 body {
   margin: 0;
-  background: #f8fafc;
-  color: #0f172a;
+  background: #f7fafc;
+  color: #2d3748;
 }
 
 * {
