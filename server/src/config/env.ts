@@ -4,7 +4,7 @@ import { z } from "zod";
 if (process.env.VITEST) {
   process.env.NODE_ENV ??= "test";
   process.env.CLIENT_URL ??= "http://localhost:3000";
-  process.env.DATABASE_URL ??= "mysql://user:password@localhost:3306/project_team_management_test";
+  process.env.DATABASE_URL ??= "postgresql://user:password@localhost:5432/project_team_management_test?schema=public";
   process.env.JWT_SECRET ??= "local-test-secret-that-is-long-enough-for-validation";
   process.env.JWT_EXPIRES_IN ??= "24h";
 }

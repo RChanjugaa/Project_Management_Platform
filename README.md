@@ -6,7 +6,7 @@ A full-stack project management system for the Intern Full Stack Developer pract
 
 - Frontend: Next.js App Router, TypeScript, Tailwind CSS
 - Backend: Node.js, Express.js, TypeScript
-- Database: MySQL
+- Database: PostgreSQL
 - ORM: Prisma
 - Validation: Zod
 - Auth: JWT stored in an HTTP-only cookie
@@ -24,7 +24,7 @@ A full-stack project management system for the Intern Full Stack Developer pract
 - Task comments.
 - Role-based API authorization.
 - Responsive calm-focus UI.
-- MySQL database relationships through Prisma.
+- PostgreSQL database relationships through Prisma.
 - Basic CI for lint, type-check, test, Prisma generate, and build.
 
 ## Setup
@@ -38,7 +38,7 @@ cp client/.env.example client/.env
 cp server/.env.example server/.env
 ```
 
-Update `server/.env` with your MySQL `DATABASE_URL`, `JWT_SECRET`, and seed account values.
+Update `server/.env` with your PostgreSQL `DATABASE_URL`, `JWT_SECRET`, and seed account values.
 
 Run the app:
 
@@ -49,9 +49,9 @@ npm run dev
 - Frontend: `http://localhost:3000`
 - Backend: `http://localhost:5000/api/v1`
 
-## Database Commands
+## PostgreSQL Database Commands
 
-Run these after MySQL is configured:
+Run these after PostgreSQL is configured:
 
 ```bash
 npm run db:migrate --prefix server

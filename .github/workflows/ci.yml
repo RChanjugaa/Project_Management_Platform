@@ -31,7 +31,7 @@ jobs:
     env:
       NODE_ENV: test
       CLIENT_URL: http://localhost:3000
-      DATABASE_URL: mysql://ci_user:ci_password@localhost:3306/project_team_management_ci
+      DATABASE_URL: postgresql://ci_user:ci_password@localhost:5432/project_team_management_ci?schema=public
       JWT_SECRET: ci-placeholder-secret-that-is-long-enough-for-validation
       JWT_EXPIRES_IN: 24h
     steps:

@@ -19,3 +19,4 @@ The interface uses a soft, calm palette suitable for a productivity and task man
 - Use the accent color only for actions and highlights.
 - Keep text concise and easy to scan.
 - Avoid decorative clutter so the system feels practical and easy to explain.
+- Use the PulseDesk PM identity consistently in the login screen and app shell.
