@@ -36,6 +36,7 @@ export const workspaceApi = {
   users: () => apiRequest<{ users: AuthUser[] }>("/users"),
   assignableUsers: () => apiRequest<{ users: AuthUser[] }>("/users/assignable"),
   createUser: (payload: UserPayload) => apiRequest<{ user: AuthUser }>("/users", { method: "POST", body: JSON.stringify(payload) }),
+  updateUser: (id: number, payload: Partial<UserPayload>) => apiRequest<{ user: AuthUser }>(`/users/${id}`, { method: "PATCH", body: JSON.stringify(payload) }),
   deactivateUser: (id: number) => apiRequest<{ user: AuthUser }>(`/users/${id}`, { method: "DELETE" }),
   projects: () => apiRequest<{ projects: Project[] }>("/projects"),
   createProject: (payload: ProjectPayload) => apiRequest<{ project: Project }>("/projects", { method: "POST", body: JSON.stringify(payload) }),

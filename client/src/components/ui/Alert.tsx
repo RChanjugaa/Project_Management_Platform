@@ -5,9 +5,9 @@ interface AlertProps {
 }
 
 const variants = {
-  error: "border-red-200 bg-red-50 text-red-800",
-  info: "border-blue-200 bg-blue-50 text-blue-800",
-  success: "border-emerald-200 bg-emerald-50 text-emerald-800"
+  error: "border-red-300 bg-red-50 text-red-800",
+  info: "border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text)]",
+  success: "border-emerald-300 bg-emerald-50 text-emerald-800"
 };
 
 export function Alert({ title, message, variant = "info" }: AlertProps) {

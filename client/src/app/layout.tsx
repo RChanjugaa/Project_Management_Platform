@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "PulseDesk PM",
+  title: "PulseDeck",
   description: "Project and team task management platform"
 };
 
@@ -11,7 +12,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        <ThemeProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -1,10 +1,10 @@
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
-import { WorkspaceDashboard } from "@/components/dashboard/WorkspaceDashboard";
+import { OverviewDashboard } from "@/components/dashboard/OverviewDashboard";
 
 export default function AdminDashboardPage() {
   return (
     <DashboardLayout role="ADMIN" title="Administrator Dashboard">
-      <WorkspaceDashboard role="ADMIN" />
+      <OverviewDashboard role="ADMIN" />
     </DashboardLayout>
   );
 }
