@@ -2,26 +2,27 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { RoleName } from "@/types/auth";
+import type { SystemRole } from "@/types/auth";
 
-const labels: Record<RoleName, string> = {
+const labels: Record<SystemRole, string> = {
   ADMIN: "Administrator",
-  PROJECT_MANAGER: "Project Manager",
-  TEAM_MEMBER: "Team Member"
+  USER: "Project workspace"
 };
 
-const basePath: Record<RoleName, string> = {
+const basePath: Record<SystemRole, string> = {
   ADMIN: "/admin",
-  PROJECT_MANAGER: "/manager",
-  TEAM_MEMBER: "/member"
+  USER: ""
 };
 
-export function Sidebar({ role }: { role: RoleName }) {
+export function Sidebar({ role }: { role: SystemRole }) {
   const pathname = usePathname();
   const links = [
     { label: "Dashboard", href: `${basePath[role]}/dashboard` },
     ...(role === "ADMIN" ? [{ label: "Users", href: "/admin/users" }] : []),
-    { label: "Projects", href: `${basePath[role]}/projects` }
+    { label: "Projects", href: role === "ADMIN" ? "/admin/projects" : "/projects" },
+    { label: "Notifications", href: "/notifications" },
+    { label: "Profile", href: "/profile" },
+    ...(role === "ADMIN" ? [{ label: "Activity", href: "/admin/activity" }] : [])
   ];
 
   return (

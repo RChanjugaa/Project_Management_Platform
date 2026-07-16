@@ -12,6 +12,16 @@ enum UserStatus {
   INACTIVE
 }
 
+enum SystemRole {
+  ADMIN
+  USER
+}
+
+enum ProjectRole {
+  PROJECT_LEADER
+  TEAM_MEMBER
+}
+
 enum ProjectStatus {
   PLANNING
   ACTIVE
@@ -43,28 +53,17 @@ enum NotificationType {
   SYSTEM
 }
 
-model Role {
-  id          Int      @id @default(autoincrement())
-  name        String   @unique
-  description String
-  isSystem    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  users       User[]
-}
-
 model User {
   id                 Int             @id @default(autoincrement())
-  roleId             Int
   name               String
   email              String          @unique
   passwordHash       String
+  systemRole         SystemRole      @default(USER)
   status             UserStatus      @default(ACTIVE)
   avatarUrl          String?
   lastLoginAt        DateTime?
   createdAt          DateTime        @default(now())
   updatedAt          DateTime        @updatedAt
-  role               Role            @relation(fields: [roleId], references: [id], onDelete: Restrict)
   createdProjects    Project[]       @relation("ProjectCreator")
   projectMemberships ProjectMember[]
   createdTasks       Task[]          @relation("TaskCreator")
@@ -74,7 +73,7 @@ model User {
   activityLogs       ActivityLog[]
 
   @@index([email])
-  @@index([roleId])
+  @@index([systemRole, status])
 }
 
 model Project {
@@ -98,16 +97,18 @@ model Project {
 }
 
 model ProjectMember {
-  id         Int      @id @default(autoincrement())
-  projectId  Int
-  userId     Int
-  assignedAt DateTime @default(now())
-  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  user       User     @relation(fields: [userId], references: [id], onDelete: Restrict)
+  id          Int         @id @default(autoincrement())
+  projectId   Int
+  userId      Int
+  projectRole ProjectRole @default(TEAM_MEMBER)
+  assignedAt  DateTime    @default(now())
+  project     Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id], onDelete: Restrict)
 
   @@unique([projectId, userId])
   @@index([projectId])
   @@index([userId])
+  @@index([projectId, projectRole])
 }
 
 model Task {

@@ -3,9 +3,9 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import type { RoleName } from "@/types/auth";
+import type { SystemRole } from "@/types/auth";
 
-export function useRequireRole(role: RoleName) {
+export function useRequireRole(role?: SystemRole) {
   const { user, isLoading } = useAuth();
   const router = useRouter();
 
@@ -15,10 +15,10 @@ export function useRequireRole(role: RoleName) {
       router.replace("/login");
       return;
     }
-    if (user.role !== role) {
+    if (role && user.systemRole !== role) {
       router.replace("/unauthorized");
     }
   }, [isLoading, role, router, user]);
 
-  return { user, isLoading, isAuthorized: Boolean(user && user.role === role) };
+  return { user, isLoading, isAuthorized: Boolean(user && (!role || user.systemRole === role)) };
 }

@@ -1,17 +1,18 @@
 import { Router } from "express";
-import { createUser, deactivateUser, getAssignableUsers, getRoles, getUsers, updateUser } from "../controllers/user.controller.js";
+import { changeOwnPassword, createUser, deactivateUser, getAssignableUsers, getUsers, updateOwnProfile, updateUser } from "../controllers/user.controller.js";
 import { authenticate } from "../middleware/authenticate.js";
-import { authorizeRoles } from "../middleware/authorize.js";
+import { authorizeSystemRoles } from "../middleware/authorize.js";
 import { validate } from "../middleware/validate.js";
-import { createUserSchema, updateUserSchema, userIdSchema } from "../validators/user.validator.js";
+import { changePasswordSchema, createUserSchema, updateProfileSchema, updateUserSchema, userIdSchema } from "../validators/user.validator.js";
 
 const router = Router();
 
 router.use(authenticate);
-router.get("/assignable", authorizeRoles("ADMIN", "PROJECT_MANAGER"), getAssignableUsers);
+router.patch("/me/profile", validate(updateProfileSchema), updateOwnProfile);
+router.patch("/me/password", validate(changePasswordSchema), changeOwnPassword);
+router.get("/assignable", getAssignableUsers);
 
-router.use(authorizeRoles("ADMIN"));
-router.get("/roles", getRoles);
+router.use(authorizeSystemRoles("ADMIN"));
 router.get("/", getUsers);
 router.post("/", validate(createUserSchema), createUser);
 router.patch("/:id", validate(updateUserSchema), updateUser);

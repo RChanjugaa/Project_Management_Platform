@@ -1,7 +1,6 @@
-import type { RoleName } from "@/types/auth";
+import type { SystemRole } from "@/types/auth";
 
-export const roleDashboardPath: Record<RoleName, string> = {
+export const roleDashboardPath: Record<SystemRole, string> = {
   ADMIN: "/admin/dashboard",
-  PROJECT_MANAGER: "/manager/dashboard",
-  TEAM_MEMBER: "/member/dashboard"
+  USER: "/dashboard"
 };

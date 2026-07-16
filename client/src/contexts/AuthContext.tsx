@@ -50,7 +50,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         const result = await loginRequest(payload);
         setUser(result.user);
-        router.push(roleDashboardPath[result.user.role]);
+        router.push(roleDashboardPath[result.user.systemRole]);
       } catch (requestError) {
         const message = requestError instanceof ApiError ? requestError.message : "Unable to reach the API. Check that the backend is running on port 5000.";
         setError(message);

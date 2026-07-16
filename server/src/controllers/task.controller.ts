@@ -6,6 +6,7 @@ import * as tasks from "../services/task.service.js";
 export const getTasks = asyncHandler(async (req: Request, res: Response) => {
   sendSuccess(res, "Tasks loaded.", { tasks: await tasks.listTasks(req.user!) });
 });
+export const getTask = asyncHandler(async (req: Request, res: Response) => { sendSuccess(res, "Task loaded.", { task: await tasks.getTask(req.user!, Number(req.params.id)) }); });
 
 export const createTask = asyncHandler(async (req: Request, res: Response) => {
   sendSuccess(res, "Task created.", { task: await tasks.createTask(req.user!, req.body) }, 201);

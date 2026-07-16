@@ -10,9 +10,14 @@ export interface Role {
   description: string;
 }
 
+export type ProjectRole = "PROJECT_LEADER" | "TEAM_MEMBER";
+
 export interface ProjectMember {
   id: number;
   userId: number;
+  projectId: number;
+  projectRole: ProjectRole;
+  assignedAt: string;
   user: AuthUser;
 }
 

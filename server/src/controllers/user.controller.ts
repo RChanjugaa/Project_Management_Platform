@@ -3,13 +3,11 @@ import { asyncHandler } from "../utils/async-handler.js";
 import { sendSuccess } from "../utils/response.js";
 import * as users from "../services/user.service.js";
 
-export const getRoles = asyncHandler(async (_req: Request, res: Response) => {
-  sendSuccess(res, "Roles loaded.", { roles: await users.listRoles() });
-});
-
 export const getUsers = asyncHandler(async (_req: Request, res: Response) => {
   sendSuccess(res, "Users loaded.", { users: await users.listUsers() });
 });
+export const updateOwnProfile = asyncHandler(async (req: Request, res: Response) => { sendSuccess(res, "Profile updated.", { user: await users.updateProfile(req.user!.id, req.body) }); });
+export const changeOwnPassword = asyncHandler(async (req: Request, res: Response) => { await users.changePassword(req.user!.id, req.body.currentPassword, req.body.newPassword); sendSuccess(res, "Password changed.", null); });
 
 export const getAssignableUsers = asyncHandler(async (_req: Request, res: Response) => {
   sendSuccess(res, "Assignable users loaded.", { users: await users.listAssignableUsers() });

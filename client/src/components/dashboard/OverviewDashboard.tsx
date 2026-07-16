@@ -4,10 +4,10 @@ import { useEffect, useMemo, useState } from "react";
 import { Alert } from "@/components/ui/Alert";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { workspaceApi } from "@/services/workspace.service";
-import type { RoleName } from "@/types/auth";
+import type { SystemRole } from "@/types/auth";
 import type { Project, Task } from "@/types/domain";
 
-export function OverviewDashboard({ role }: { role: RoleName }) {
+export function OverviewDashboard({ role }: { role: SystemRole }) {
   const [projects, setProjects] = useState<Project[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [userCount, setUserCount] = useState(0);

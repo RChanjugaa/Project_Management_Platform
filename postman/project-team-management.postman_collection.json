@@ -16,7 +16,6 @@
     },
     { "name": "Me", "request": { "method": "GET", "url": "{{baseUrl}}/auth/me" } },
     { "name": "Logout", "request": { "method": "POST", "url": "{{baseUrl}}/auth/logout" } },
-    { "name": "Roles", "request": { "method": "GET", "url": "{{baseUrl}}/users/roles" } },
     { "name": "Users", "request": { "method": "GET", "url": "{{baseUrl}}/users" } },
     { "name": "Assignable Users", "request": { "method": "GET", "url": "{{baseUrl}}/users/assignable" } },
     {
@@ -24,7 +23,7 @@
       "request": {
         "method": "POST",
         "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "body": { "mode": "raw", "raw": "{\n  \"name\": \"Team Member\",\n  \"email\": \"member2@example.com\",\n  \"password\": \"Password123!\",\n  \"roleId\": 3,\n  \"status\": \"ACTIVE\"\n}" },
+        "body": { "mode": "raw", "raw": "{\n  \"name\": \"Project User\",\n  \"email\": \"member2@example.com\",\n  \"password\": \"Password123!\",\n  \"systemRole\": \"USER\",\n  \"status\": \"ACTIVE\"\n}" },
         "url": "{{baseUrl}}/users"
       }
     },
@@ -39,11 +38,11 @@
       }
     },
     {
-      "name": "Assign Members",
+      "name": "Add Project Member",
       "request": {
         "method": "POST",
         "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "body": { "mode": "raw", "raw": "{\n  \"userIds\": [2, 3]\n}" },
+        "body": { "mode": "raw", "raw": "{\n  \"userId\": 2,\n  \"projectRole\": \"TEAM_MEMBER\"\n}" },
         "url": "{{baseUrl}}/projects/1/members"
       }
     },
@@ -74,7 +73,9 @@
         "body": { "mode": "raw", "raw": "{\n  \"content\": \"Progress updated.\"\n}" },
         "url": "{{baseUrl}}/tasks/1/comments"
       }
-    }
+    },
+    { "name": "Notifications", "request": { "method": "GET", "url": "{{baseUrl}}/notifications" } },
+    { "name": "Activity Logs (Admin)", "request": { "method": "GET", "url": "{{baseUrl}}/activity-logs" } }
   ],
   "variable": [{ "key": "baseUrl", "value": "http://localhost:5000/api/v1" }]
 }

@@ -1,10 +1,2 @@
-import { ProjectsPage } from "@/components/dashboard/ProjectsPage";
-import { DashboardLayout } from "@/components/layout/DashboardLayout";
-
-export default function ManagerProjectsPage() {
-  return (
-    <DashboardLayout role="PROJECT_MANAGER" title="Projects">
-      <ProjectsPage role="PROJECT_MANAGER" />
-    </DashboardLayout>
-  );
-}
+import { redirect } from "next/navigation";
+export default function LegacyManagerProjects() { redirect("/projects"); }

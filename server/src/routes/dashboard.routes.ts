@@ -1,12 +1,13 @@
 import { Router } from "express";
 import { adminDashboard, managerDashboard, memberDashboard } from "../controllers/dashboard.controller.js";
 import { authenticate } from "../middleware/authenticate.js";
-import { authorizeRoles } from "../middleware/authorize.js";
+import { authorizeSystemRoles } from "../middleware/authorize.js";
 
 const router = Router();
 
-router.get("/admin", authenticate, authorizeRoles("ADMIN"), adminDashboard);
-router.get("/manager", authenticate, authorizeRoles("PROJECT_MANAGER"), managerDashboard);
-router.get("/member", authenticate, authorizeRoles("TEAM_MEMBER"), memberDashboard);
+router.get("/admin", authenticate, authorizeSystemRoles("ADMIN"), adminDashboard);
+router.get("/user", authenticate, managerDashboard);
+router.get("/manager", authenticate, managerDashboard);
+router.get("/member", authenticate, memberDashboard);
 
 export { router as dashboardRoutes };

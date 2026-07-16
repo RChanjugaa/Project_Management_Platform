@@ -11,21 +11,20 @@ export function toSafeUser(user: {
   name: string;
   email: string;
   status: string;
-  role: { name: string };
+  systemRole: "ADMIN" | "USER";
 }) {
   return {
     id: user.id,
     name: user.name,
     email: user.email,
     status: user.status,
-    role: user.role.name
+    systemRole: user.systemRole
   };
 }
 
 export async function loginUser(input: LoginInput) {
   const user = await prisma.user.findUnique({
     where: { email: input.email },
-    include: { role: true }
   });
 
   if (!user) {
@@ -33,7 +32,7 @@ export async function loginUser(input: LoginInput) {
   }
 
   if (user.status !== "ACTIVE") {
-    throw new AppError("This account is inactive.", 403);
+    throw new AppError(invalidCredentialsMessage, 401);
   }
 
   const isPasswordValid = await bcrypt.compare(input.password, user.passwordHash);
@@ -50,7 +49,7 @@ export async function loginUser(input: LoginInput) {
   const token = signAccessToken({
     id: safeUser.id,
     email: safeUser.email,
-    role: safeUser.role,
+    systemRole: safeUser.systemRole,
     status: safeUser.status
   });
 
@@ -60,11 +59,14 @@ export async function loginUser(input: LoginInput) {
 export async function getAuthenticatedUser(userId: number) {
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    include: { role: true }
   });
 
   if (!user) {
     throw new AppError("Authenticated user no longer exists.", 401);
+  }
+
+  if (user.status !== "ACTIVE") {
+    throw new AppError("Invalid or expired session.", 401);
   }
 
   return toSafeUser(user);

@@ -1,10 +1,10 @@
-export type RoleName = "ADMIN" | "PROJECT_MANAGER" | "TEAM_MEMBER";
+export type SystemRole = "ADMIN" | "USER";
 
 export interface AuthUser {
   id: number;
   name: string;
   email: string;
-  role: RoleName;
+  systemRole: SystemRole;
   status: "ACTIVE" | "INACTIVE";
 }
 

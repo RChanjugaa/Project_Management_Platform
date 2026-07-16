@@ -1,0 +1,5 @@
+"use client";
+import { useEffect, useState } from "react";
+import { DashboardLayout } from "@/components/layout/DashboardLayout";
+import { workspaceApi } from "@/services/workspace.service";
+export default function ActivityPage() { const [items, setItems] = useState<Array<{ id: number; action: string; entityType: string; createdAt: string; user?: { name: string } | null }>>([]); useEffect(() => { void workspaceApi.activityLogs().then((result) => setItems(result.items)); }, []); return <DashboardLayout role="ADMIN" title="Activity Log"><div className="overflow-x-auto rounded-lg border border-[var(--border)] bg-[var(--surface)]"><table className="w-full text-left text-sm"><thead><tr><th className="p-3">Time</th><th>Action</th><th>Entity</th><th>User</th></tr></thead><tbody>{items.map((item) => <tr key={item.id} className="border-t border-[var(--border)]"><td className="p-3">{new Date(item.createdAt).toLocaleString()}</td><td>{item.action}</td><td>{item.entityType}</td><td>{item.user?.name ?? "System"}</td></tr>)}</tbody></table></div></DashboardLayout>; }

@@ -39,6 +39,14 @@ body {
   color: var(--text);
 }
 
+.login-canvas {
+  position: relative;
+  background:
+    radial-gradient(circle at 7% 88%, color-mix(in srgb, var(--primary) 28%, transparent) 0 13%, transparent 13.2%),
+    radial-gradient(circle at 92% 8%, color-mix(in srgb, var(--secondary) 30%, transparent) 0 18%, transparent 18.2%),
+    linear-gradient(135deg, var(--background), color-mix(in srgb, var(--primary) 8%, var(--background)));
+}
+
 * {
   box-sizing: border-box;
 }
