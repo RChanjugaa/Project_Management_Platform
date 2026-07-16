@@ -240,6 +240,20 @@ npm run test        # Run backend tests
 npm run build       # Build frontend and backend
 ```
 
+## Recording the full application flow
+
+The repository includes a visible Selenium WebDriver demonstration designed for the submission screen recording. It opens Chrome and walks through the Administrator, Project Manager, and Team Member flows at a presentation-friendly speed.
+
+1. Copy `e2e/.env.e2e.example` to `e2e/.env.e2e.local`.
+2. Put the deployed demo account emails and passwords in the local file.
+3. Start OBS, Loom, or Xbox Game Bar screen recording.
+4. Double-click `START-E2E-VIDEO.cmd` on Windows.
+5. Do not use the mouse until the automation finishes.
+
+The private `.env.e2e.local` file is ignored by Git. The test creates timestamped demo records so it does not overwrite normal user-created projects.
+
+The default timing is intentionally slow for recording. If Render takes longer to wake up, increase `E2E_TIMEOUT_MS` in the private file. When a step fails, the browser remains open briefly and a screenshot is saved inside the ignored `e2e/artifacts` folder.
+
 Prisma commands:
 
 ```bash
@@ -291,7 +305,7 @@ The `.github/workflows/ci.yml` file runs automatic checks whenever code is pushe
 
 ## Current validation
 
-- Backend tests: 11 passed
+- Backend tests: 55 passed across authentication, authorisation, validation, project/task rules, notifications, and API protection
 - TypeScript checks: passed
 - Production builds: passed
 - Prisma schema and migrations: included

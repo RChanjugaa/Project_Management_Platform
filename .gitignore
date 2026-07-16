@@ -6,6 +6,8 @@ node_modules/
 .env
 .env.*
 !.env.example
+!e2e/.env.e2e.example
+e2e/artifacts/
 
 # Build outputs
 .next/

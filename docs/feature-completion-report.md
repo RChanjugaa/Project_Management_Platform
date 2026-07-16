@@ -35,7 +35,7 @@ This report gives a simple overview of the features completed for the internship
 
 ## Validation completed
 
-- Backend automated tests: 11 passed
+- Backend automated tests: 55 passed
 - Frontend and backend TypeScript checks: passed
 - Frontend and backend production builds: passed
 - Prisma schema and production migrations: included
