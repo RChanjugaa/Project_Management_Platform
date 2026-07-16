@@ -4,6 +4,13 @@ PulseDeck is a full-stack web application I built to make project and task manag
 
 This project was completed as part of my Full Stack Developer internship practical assignment.
 
+## Live application
+
+- Frontend: [https://project-management-platform-eight.vercel.app](https://project-management-platform-eight.vercel.app)
+- API health check: [https://pulsedeck-api.onrender.com/api/v1/health](https://pulsedeck-api.onrender.com/api/v1/health)
+
+Demo administrator, Project Leader, and Team Member credentials are provided privately with the submission. Passwords are intentionally not published in the repository.
+
 ## What can PulseDeck do?
 
 - Secure login and logout using an HTTP-only authentication cookie
@@ -258,6 +265,14 @@ The Postman collection is available at:
 
 Import it into Postman and update the base URL if the API is deployed online.
 
+## Submission documents
+
+- [Feature completion report](docs/feature-completion-report.md)
+- [CI/CD workflow explanation](docs/ci-cd-explanation.md)
+- [ER diagram](<DIAGRAMS/ER DIAGRAM.pdf>)
+- [Use-case diagram](<DIAGRAMS/USECASE DIAGRAM.pdf>)
+- [System architecture diagram](<DIAGRAMS/SA DIAGRAM.drawio.pdf>)
+
 ## Deployment overview
 
 The application can be deployed using:
@@ -267,6 +282,8 @@ The application can be deployed using:
 - Render PostgreSQL for the database
 
 Production environment values must be added through the hosting dashboards and must never be committed to GitHub. Before deploying, run the build and tests locally, push the latest files, apply Prisma migrations, and update the frontend/backend URLs.
+
+The current deployment uses Vercel for the frontend and Render for the API and PostgreSQL database. The frontend connects to the REST API through `NEXT_PUBLIC_API_URL`, while the backend allows the deployed frontend through `CLIENT_URL`.
 
 ## Continuous integration
 
@@ -278,6 +295,18 @@ The `.github/workflows/ci.yml` file runs automatic checks whenever code is pushe
 - TypeScript checks: passed
 - Production builds: passed
 - Prisma schema and migrations: included
+
+## Security notes
+
+- Passwords are stored only as bcrypt hashes.
+- Authentication uses a secure HTTP-only cookie instead of browser local storage.
+- Backend middleware enforces both system-level and project-level permissions.
+- Environment files and production credentials are excluded from Git.
+- Production database credentials are stored only in the hosting environment.
+
+## Development disclosure
+
+AI tools were used as development support for planning, debugging, code review, and documentation. The final implementation, project decisions, testing, and submission were reviewed and validated by the developer.
 
 ---
 
